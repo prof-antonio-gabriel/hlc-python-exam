@@ -1,0 +1,8 @@
+{
+    "usuarios": [
+        {"nombre": "Juan", "edad": 30, "email": "juan@example.com"},  // Comentario no permitido en JSON
+        {"nombre": "Ana", "edad": "25", "email": "ana@example.com"},  // La edad debería ser un número, no una cadena
+        {"nombre": "Luis", "edad": 40  // Falta la cerradura del objeto
+    ]
+    "faltante": "corchete"  // Falta la coma para separar elementos del objeto
+}
