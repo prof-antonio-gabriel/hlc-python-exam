@@ -1,8 +1,13 @@
 # test_gestion_usuarios.py
 
 import pytest
+import os
+import pathlib
 from unittest.mock import MagicMock
 from assetments.ejercicio3.gestion_usuarios import Usuario, GestorUsuarios
+
+script_dir = pathlib.Path(os.path.realpath(__file__)).parent
+
 
 
 # Test para la clase Usuario
@@ -20,14 +25,14 @@ def test_usuario_from_dict():
 
 # Test para cargar_usuarios
 def test_cargar_usuarios_con_archivo_valido():
-    gestor = GestorUsuarios("../data/usuarios.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios.json")
     usuarios = gestor.cargar_usuarios()
     assert isinstance(usuarios, list)
     assert all(isinstance(usuario, Usuario) for usuario in usuarios)
 
 
 def test_cargar_usuarios_con_archivo_malformado():
-    gestor = GestorUsuarios("../data/archivo_malformado.json")
+    gestor = GestorUsuarios(script_dir / "../data/archivo_malformado.json")
     with pytest.raises(ValueError) as excinfo:
         gestor.cargar_usuarios()
     assert "Error al leer el archivo JSON" in str(excinfo.value)
@@ -41,7 +46,7 @@ def test_cargar_usuarios_con_error_lectura():
 
 
 def test_anadir_usuario():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     usuario_original = Usuario(nombre="Ana", edad=25)
     gestor.anadir_usuario(usuario_original)
 
@@ -49,7 +54,7 @@ def test_anadir_usuario():
 
 
 def test_obtener_usuario_existente():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     usuario_existente = Usuario(nombre="Ana", edad=25)
     gestor.usuarios.append(usuario_existente)
 
@@ -58,7 +63,7 @@ def test_obtener_usuario_existente():
 
 
 def test_obtener_usuario_inexistente():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     gestor.usuarios = [Usuario(nombre="Juan", edad=30)]
 
     resultado = gestor.obtener_usuario("Ana")
@@ -66,7 +71,7 @@ def test_obtener_usuario_inexistente():
 
 
 def test_eliminar_usuario_existente():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     usuario_existente = Usuario(nombre="Ana", edad=25)
     gestor.usuarios.append(usuario_existente)
 
@@ -75,7 +80,7 @@ def test_eliminar_usuario_existente():
 
 
 def test_eliminar_usuario_inexistente():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     usuario_original = Usuario(nombre="Juan", edad=30)
     gestor.usuarios.append(usuario_original)
 
@@ -85,14 +90,8 @@ def test_eliminar_usuario_inexistente():
 
 
 def test_eliminar_usuario_actualiza_archivo_json():
-    gestor = GestorUsuarios("../data/usuarios2.json")
+    gestor = GestorUsuarios(script_dir / "../data/usuarios2.json")
     gestor.guardar_usuarios = MagicMock()
 
     gestor.eliminar_usuario("Ana")
     gestor.guardar_usuarios.assert_called_once()
-
-
-
-
-
-

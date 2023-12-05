@@ -18,10 +18,10 @@ pip3 install pytest
 
 Completar el código fuente de los archivos:
 
-*ejercicio1/calificaciones.py   (2ptos)*
-*ejercicio2/juego.py 			(3ptos)*
-*ejercicio3/usuario.py          (1pto)*
-*ejercicio3/gestion_usuarios.py (4ptos)*
+* ejercicio1/calificaciones.py   (2ptos)
+* ejercicio2/juego.py 			(3ptos)
+* ejercicio3/usuario.py          (1pto)
+* ejercicio3/gestion_usuarios.py (4ptos)
 
 Para obtener la máxima puntuación se deben pasar el 100% de los siguientes test unitarios:
 
