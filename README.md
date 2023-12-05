@@ -75,5 +75,5 @@ test_usuarios.py ...........                                                    
 ```
 
 
-**Una vez finalizado hacer commit con los cambios y solicitar un pull request de los mismoas.**
+**Una vez finalizado hacer commit con los cambios y solicitar un pull request de los mismos.**
 
