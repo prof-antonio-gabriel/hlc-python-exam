@@ -35,10 +35,10 @@ class GestorUsuarios:
         a objetos de la clase Usuario (a través de la implementación de Usuario.from_dict).
         Si el archivo no existe, se lanza una excepción.
 
-        Durante el proceso de carga, el método maneja varios tipos de excepciones para asegurar que el programa no falla
-        inesperadamente: al abrir el archivo (OSError), errores en la decodificación del JSON (JSONDecodeError),
-        y otras excepciones inesperadas. En cada caso, se lanza un ValueError con un mensaje descriptivo
-        y se devuelve una lista vacía.
+        Durante el proceso de carga, el método maneja varios tipos de excepciones para asegurar que el programa no falle
+        inesperadamente y proporcione retroalimentación útil sobre cualquier problema que ocurra. Estos incluyen problemas
+        al abrir el archivo (OSError), errores en la decodificación del JSON (JSONDecodeError), y otras excepciones
+        inesperadas. En cada caso, se lanza un ValueError con un mensaje descriptivo y se devuelve una lista vacía.
 
         Devuelve:
         list: Una lista de objetos Usuario, donde cada objeto representa a un usuario cargado desde el archivo JSON.
@@ -73,7 +73,16 @@ class GestorUsuarios:
         Error al cargar usuarios: Error inesperado al cargar usuarios
 
         """
-        return None # Eliminar esta línea e implementar el código de esta función
+        try:
+            with open(self.archivo, 'r') as f:
+                usuarios_data = load(f)["usuarios"]
+                return [Usuario.from_dict(usuario) for usuario in usuarios_data]
+        except JSONDecodeError:
+            raise ValueError(f"Error al leer el archivo JSON")
+        except OSError:
+            raise ValueError(f"Error al abrir el archivo")
+        except Exception:
+            raise ValueError(f"Error inesperado al cargar usuarios")
 
     def guardar_usuarios(self):
         """
@@ -82,7 +91,14 @@ class GestorUsuarios:
 
         :return: None. Los efectos son la escritura en el archivo JSON.
         """
-        # Implementar aquí el código del método
+        try:
+            usuarios_data = {"usuarios": [usuario.to_dict() for usuario in self.usuarios]}
+            with open(self.archivo, 'w') as f:
+                dump(usuarios_data, f, indent=4)
+        except IOError as err:
+            print(f"Error al guardar usuarios en el archivo: {err}")
+        except Exception as err:
+            print(f"Error inesperado al guardar usuarios: {err}")
 
     def anadir_usuario(self, usuario):
         """
@@ -104,7 +120,8 @@ class GestorUsuarios:
         >>> gestor.anadir_usuario(nuevo_usuario)
         # El usuario 'Ana' se añade a la lista de usuarios y se actualiza el archivo 'usuarios.json'.
         """
-        # Implementar aquí el código del método
+        self.usuarios.append(usuario)
+        self.guardar_usuarios()
 
     def obtener_usuario(self, nombre_usuario):
         """
@@ -135,7 +152,10 @@ class GestorUsuarios:
           proporcionar el parámetro de nombre de usuario.
         - Este método no modifica el estado de la lista de usuarios ni interactúa con el archivo JSON.
         """
-        return None # Eliminar esta línea e implementar el código de esta función
+        for usuario in self.usuarios:
+            if usuario.nombre == nombre_usuario:
+                return usuario
+        return None
 
     def eliminar_usuario(self, nombre_usuario):
         """
@@ -167,4 +187,5 @@ class GestorUsuarios:
         - Este método no retorna un valor. Su propósito es modificar el estado interno y el archivo de almacenamiento.
         - La búsqueda y eliminación son sensibles a mayúsculas y minúsculas.
         """
-        # Implementar aquí el código del método
+        self.usuarios = [usuario for usuario in self.usuarios if usuario.nombre != nombre_usuario]
+        self.guardar_usuarios()

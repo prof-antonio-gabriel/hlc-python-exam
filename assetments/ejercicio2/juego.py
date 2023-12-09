@@ -10,7 +10,7 @@ def es_jugada_valida(jugada):
     :param jugada: La jugada del jugador.
     :return: True si la jugada es válida, False en caso contrario.
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    return jugada in ["piedra", "papel", "tijera"]
 
 
 def determinar_ganador(jugada1, jugada2):
@@ -22,7 +22,14 @@ def determinar_ganador(jugada1, jugada2):
     :param jugada2: La jugada del jugador 2 (piedra, papel o tijera)
     :return: Una cadena que indica el resultado: "Jugador 1 gana" o "Jugador 2 gana" o "Empate"
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    if jugada1 == jugada2:
+        return "Empate"
+    elif (jugada1 == "piedra" and jugada2 == "tijera") or \
+         (jugada1 == "tijera" and jugada2 == "papel") or \
+         (jugada1 == "papel" and jugada2 == "piedra"):
+        return "Jugador 1 gana"
+    else:
+        return "Jugador 2 gana"
 
 
 def jugar(jugada1, jugada2):
@@ -34,4 +41,11 @@ def jugar(jugada1, jugada2):
         f"Jugada Inválida: {jugada1}" si la jugada no es válida para la jugada1
         f"Jugada Inválida: {jugada1}" si la jugada no es válida para la jugada2
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    try:
+        if not es_jugada_valida(jugada1):
+            raise ValueError(f"Jugada inválida: {jugada1}")
+        if not es_jugada_valida(jugada2):
+            raise ValueError(f"Jugada inválida: {jugada2}")
+        return determinar_ganador(jugada1, jugada2)
+    except ValueError as e:
+        return str(e)

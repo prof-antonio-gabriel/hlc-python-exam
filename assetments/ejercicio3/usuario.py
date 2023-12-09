@@ -6,7 +6,8 @@ class Usuario:
         :param nombre: El nombre del usuario.
         :param edad: La edad del usuario.
         """
-
+        self.nombre = nombre
+        self.edad = edad
 
     def to_dict(self):
         """
@@ -14,7 +15,10 @@ class Usuario:
 
         :return: Diccionario representando al usuario.
         """
-        return None  # Eliminar esta línea e implementar el código de esta función
+        return {
+            "nombre": self.nombre,
+            "edad": self.edad
+        }
 
     @staticmethod
     def from_dict(data):
@@ -24,4 +28,4 @@ class Usuario:
         :param data: Diccionario con los datos del usuario.
         :return: Objeto Usuario.
         """
-        return None # Eliminar esta línea e implementar el código de esta función
+        return Usuario(data['nombre'], data['edad'])

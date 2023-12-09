@@ -26,7 +26,10 @@ def calcular_promedio(calificaciones):
     >>> calcular_promedio([])
     ValueError: La lista de calificaciones está vacía, no se puede calcular el promedio.
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    try:
+        return sum(calificaciones) / len(calificaciones)
+    except ZeroDivisionError:
+        raise ValueError("La lista de calificaciones está vacía, no se puede calcular el promedio.")
 
 
 def calificacion_maxima(calificaciones):
@@ -60,7 +63,11 @@ def calificacion_maxima(calificaciones):
     >>> calificacion_maxima([20, "30", 40])
     TypeError: Todos los elementos de la lista deben ser numéricos.
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    if not calificaciones:
+        raise ValueError("No se puede encontrar una calificación máxima en una lista vacía.")
+    if not all(isinstance(calificacion, (int, float)) for calificacion in calificaciones):
+        raise TypeError("Todos los elementos de la lista deben ser numéricos.")
+    return max(calificaciones)
 
 
 def calificacion_minima(calificaciones):
@@ -94,5 +101,9 @@ def calificacion_minima(calificaciones):
     >>> calificacion_maxima([20, "30", 40])
     TypeError: Todos los elementos de la lista deben ser numéricos.
     """
-    return None # Eliminar esta línea e implementar el código de esta función
+    if not calificaciones:
+        raise ValueError("No se puede encontrar una calificación mínima en una lista vacía.")
+    if not all(isinstance(calificacion, (int, float)) for calificacion in calificaciones):
+        raise TypeError("Todos los elementos de la lista deben ser numéricos.")
+    return min(calificaciones)
 
